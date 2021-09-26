@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react'
 import './styles.css';
 import Modal from 'react-modal';
 import List from '../../components/List'
-import {AiOutlineSearch} from 'react-icons/ai'
+import { AiOutlineSearch } from 'react-icons/ai'
+import Notification from '../../components/Notification';
 
 
 export default function Cardapio() {
@@ -11,10 +12,11 @@ export default function Cardapio() {
             zIndex: 10,
             background: '#fff',
             top: "50%",
-            left: "61%",
+            left: "50%",
             right: "auto",
             bottom: "auto",
-            width: "auto",
+            width: "30%",
+            height: "60%",
             maxHeight: "90vh",
             marginRight: "-50%",
             transform: "translate(-50%, -50%)",
@@ -74,6 +76,10 @@ export default function Cardapio() {
     }
 
     const registerNewIngrediente = () => {
+        if(nomeIngrediente == '' || precoIngrediente == ''){
+            Notification.warn("Você precisa inserir um valor valido para prosseguir");
+            return
+        }
         let newObject = {
             nome: nomeIngrediente,
             preco: precoIngrediente,
@@ -85,9 +91,10 @@ export default function Cardapio() {
             localStorage.setItem('cardapio', JSON.stringify({ 'cardapio': [...cardapio, newObject] }));
             setModalAdd(false);
             resetStates();
+            Notification.success("Cardapio adicionado com sucesso")
             return
         } else {
-            alert('Já existe um prato com esse nome')
+            Notification.warn('Já existe um prato com esse nome')
         }
     }
 
@@ -109,7 +116,7 @@ export default function Cardapio() {
                     <input className="inputSearch" type="text" placeholder="Pesquise aqui..." onChange={(e) => {
                         if (e.target.value.length == 0) setCardapioSearch([])
                     }} onBlur={(e) => setSearch(e.target.value)} />
-                    <button className="btnSearch"onClick={() => findItem()}><AiOutlineSearch className="icon"/> Procurar</button>
+                    <button className="btnSearch" onClick={() => findItem()}><AiOutlineSearch className="icon" /> Procurar</button>
                 </div>
                 <div className="w50 flexEnd" >
                     <button className="buttonAdd" onClick={() => setModalAdd(true)}>Adicionar novo cardapio</button>
@@ -129,29 +136,39 @@ export default function Cardapio() {
                     <form onSubmit={(e) => {
                         e.preventDefault();
                     }}>
-
-                        <div>
-                            <label htmlFor="">Nome</label>
-                            <input required type="text" onBlur={(e) => setNomeIngrediente(e.target.value)} />
+                        <div className="modalNewCardapioSingle">
+                            <label className="label">Nome</label>
+                            <input className="input" required type="text" onBlur={(e) => setNomeIngrediente(e.target.value)} />
                         </div>
-                        <div>
-                            <label htmlFor="">Preço</label>
-                            <input required type="text" onBlur={(e) => setPrecoIngrediente(e.target.value)} />
+                        <div className="modalNewCardapioSingle">
+                            <label className="label">Preço</label>
+                            <input className="input" required type="number" onBlur={(e) => setPrecoIngrediente(e.target.value)} />
                         </div>
-                        <div>
-                            <input required type="text" onBlur={(e) => setIngrediente(e.target.value)} />
-                            <button onClick={() => addIngrediente()}>adicionar</button>
+                        <div className="modalNewCardapioSingle">
+                            <label className="label">Insira ingredientes</label>
+                            <div className="row">
+                                <input className="input" required type="text" onBlur={(e) => setIngrediente(e.target.value)} />
+                                <button onClick={() => addIngrediente()}>+ adicionar</button>
+                            </div>
                         </div>
-                        <div>
-                            <label htmlFor="">meu ingrediente</label>
+                        <div className="modalNewCardapioSingle">
                             {/* lista de ingredientes */}
                             {ingredientes && ingredientes.map(item => {
+                                <label htmlFor="">Ingredientes</label>
                                 return <div>
                                     <label onClick={() => removeItem(item.id)}>{item.nome}</label>
                                 </div>
                             })}
                         </div>
-                        <input type="submit" value="salvar" onClick={() => registerNewIngrediente()} />
+                        <input className="buttonConfirm" type="submit" value="salvar" onClick={() => registerNewIngrediente()} />
+                        <button className="buttonCancel"
+                            onClick={()=>{ 
+                                setModalAdd(false)
+                                resetStates();
+                            }}
+                        >
+                            Cancelar
+                        </button>
                     </form>
 
                 </div>

@@ -2,17 +2,27 @@
     padding: 0;
     margin: 0;
 }
+html,body {
+    background-color: #e0e0de;
+}
 .container {
     width: 100%;
     height: 100%;
     display: flex;
-    background-color: #e0e0de;
+    
     flex-direction: column;
 }
 .modalAddNewCardapio {
     width: 100%;
     height: 100%;
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.modalNewCardapioSingle {
+    display: flex;
+    width: 100%;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -62,4 +72,50 @@
 .icon{
     width: 30px;
     height: 30px;
+}
+.row {
+    display: flex;flex-direction: row;
+}
+.label {
+    font-size:1.5rem;
+    color:rgb(75, 74, 74);
+}
+.input {
+    width:100%;
+    height: 30px;
+    border: 2px solid #70706f;
+    outline: none;
+    border-radius: 5px;
+    padding: 5px;
+}
+.buttonConfirm {
+    width:100%;
+    height: 40px;
+    background-color: #22d673;
+    padding: 10px;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    color: #fff;
+    border-radius: 5px;
+}
+.buttonCancel {
+    font-size: 1.5rem;
+    width:100%;
+    height: 40px;
+    padding: 10px;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 5px;
+}
+.buttonCancel:hover {
+    background-color: #c4200e;
+    border: 2xp solid #fff;
+    color: #fff;
+    transition: all .5s;
 }
